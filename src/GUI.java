@@ -12,9 +12,9 @@ import javax.swing.table.DefaultTableModel;
 public class GUI {
 
 	public JFrame frame;
-	private JTable tblOutput;
-	private JTable tblParse;
-	private JTable tblProduction;
+	public JTable tblOutput;
+	public JTable tblParse;
+	public JTable tblProduction;
 	private JTextField txtInput;
 	private JTextField txtLoaded;
 

@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 public class NRPP {
 	public GUI gui;
@@ -20,5 +21,19 @@ public class NRPP {
 	
 	public NRPP(){
 		gui = new GUI();
+	}
+
+	public void parser(){
+
+		
+		String input = "id + id * id $";
+		String inputWords[] = input.trim().split("\\s");
+		ArrayList<String> stack = new ArrayList<String>();
+		
+		stack.add("E $");
+
+		
+
+
 	}
 }
