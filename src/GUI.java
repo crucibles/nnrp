@@ -179,6 +179,33 @@ public class GUI {
 		model.addRow(row);		
 	}
 	
+	public void setOutputTable(String text){
+		DefaultTableModel model = (DefaultTableModel) tblOutput.getModel();
+		String word = "";
+		Vector<String> row = new Vector<String>();
+		for(int i = 0; i < text.length(); i++){
+			if(text.charAt(i) == '\n'){
+				System.out.println(word);
+				row.add(word);
+				word = "";
+				model.addRow(row);
+				System.out.println("row1" + row);
+				row = new Vector<String>();
+			} else if(text.charAt(i) == ','){
+				System.out.println(word);
+				row.add(word);
+				word = "";
+			} else {
+				word += text.charAt(i);							
+			}
+		}
+		
+		row.add(word);
+		word = "";
+		System.out.println("row2" + row);				
+		model.addRow(row);		
+	}
+	
 	public void setProductionTable(String text){
 		boolean isFirst = true;
 		DefaultTableModel model = (DefaultTableModel) tblParse.getModel();
