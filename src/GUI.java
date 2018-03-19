@@ -134,11 +134,9 @@ public class GUI {
 		tblOutput = new JTable();
 		tblOutput.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null},
-				{null, null, null},
 			},
 			new String[] {
-				"Stack", "New column", "New column"
+				"Stack", "Input Buffer", "Action"
 			}
 		));
 		spOutput.setViewportView(tblOutput);
