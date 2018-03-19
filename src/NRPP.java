@@ -28,5 +28,11 @@ public class NRPP {
 				+ "T',,6,5,,6,6\n"
 				+ "F,8,,,7,,";
 		gui.setProductionTable(text);
+		text = "E $,id + id * id $\n"
+				+ "T E' $,id + id * id $, Output E > T E'\n"
+				+ "F T’ E’ $,id + id * id $,Output T > F T'\n"
+				+ "id T’ E’ $,id + id * id $,Output F > id\n"
+				+ "T’ E’ $,+ id * id $,Match id";
+		gui.setOutputTable(text);
 	}
 }
