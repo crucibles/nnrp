@@ -16,10 +16,10 @@ public class GUI {
 	public JFrame frame;
 	public JButton btnLoaded;
 	public JButton btnParse;
+	public JTable tblOutput;
+	public JTable tblParse;
+	public JTable tblProduction;
 
-	private JTable tblOutput;
-	private JTable tblProduction;
-	private JTable tblParse;
 	private JLabel lblParseFileName;
 	private JLabel lblProdFileName;
 	private JTextField txtInput;
@@ -172,6 +172,9 @@ public class GUI {
 	}
 
 	public void setOutputTable(String text) {
+		if(text.isEmpty()){
+			return;
+		}
 		DefaultTableModel model = (DefaultTableModel) tblOutput.getModel();
 		model.setRowCount(0);
 		String word = "";
@@ -249,5 +252,9 @@ public class GUI {
 			txtLoaded.setText(fileName);
 			lblParseFileName.setText(fileName);
 		}
+	}
+	
+	public String getInputText(){
+		return this.txtInput.getText();
 	}
 }
