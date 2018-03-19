@@ -7,6 +7,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
 
 public class GUI {
 
@@ -131,6 +132,15 @@ public class GUI {
 		outputPanel.add(spOutput);
 		
 		tblOutput = new JTable();
+		tblOutput.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"Stack", "New column", "New column"
+			}
+		));
 		spOutput.setViewportView(tblOutput);
 	}
 }
