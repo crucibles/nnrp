@@ -16,7 +16,7 @@ public class FileHandler {
 
 	public String prodName = "";
 	public BufferedReader reader;
-	private CustomFileChooser fileChooser = new CustomFileChooser("prod");
+	private CustomFileChooser fileChooser = new CustomFileChooser();
 	private File selectedFile;
 	private File prodFile = null;
 	private File ptblFile = null;
@@ -101,22 +101,25 @@ public class FileHandler {
 	 */
 	public String createFile(String output, JFrame frame) throws IOException {
 		Writer writer = null;
-
+		String name = "";
+		prodName = prodName.replace(".prod", "");
 		try {
-			// AHJ: unimplemented; #01: weird part here. Filechooser can choose
-			// in or out for extension in saving file... so unsaon pagkabalo?
-			// (Also, this savefile function does not include saving of .in
-			// file)
-			String fileName = prodFile.getCanonicalPath();
-			System.out.println(fileName);
+			CustomFileChooser fileChooser = new CustomFileChooser("prsd");
+			fileChooser.setCurrentDirectory(
+					new File(FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath()));
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			int status = fileChooser.showSaveDialog(frame);
+			if (status == JFileChooser.APPROVE_OPTION) {
+				String filePath = fileChooser.getSelectedFile().getCanonicalPath();
+				selectedFile = new File(filePath.replace(".prod", ""));
 
-			selectedFile = new File(fileName.replace(".inp", ".out"));
-
-			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(selectedFile)));
-			writer.write(output);
-			// AHJ: unimplemented; (not properly implemented)refer to comment
-			// #01
-			return selectedFile.getName();
+				writer = new BufferedWriter(
+						new OutputStreamWriter(new FileOutputStream(selectedFile + "_" + prodName + ".prsd")));
+				writer.write(output);
+				// AHJ: unimplemented; (not properly implemented)refer to comment
+				// #01
+				name = selectedFile.getName();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -130,6 +133,7 @@ public class FileHandler {
 				;
 			}
 		}
+		return name;
 	}
 
 	/**
@@ -168,7 +172,6 @@ public class FileHandler {
 			line = reader.readLine(); // reads next line
 		}
 
-		System.out.println(fileContent);
 		reader.close();
 		return fileContent;
 	}
@@ -215,23 +218,22 @@ class CustomFileChooser extends JFileChooser {
 	private static final long serialVersionUID = -4789704212540593370L;
 	private String extension;
 
+	public CustomFileChooser() {
+		super();
+		addChoosableFileFilter(new FileNameExtensionFilter(
+				String.format("*prod files and *ptbl files, ", "prod", "ptbl"), "prod", "ptbl"));
+	}
+
 	public CustomFileChooser(String extension) {
 		super();
 		this.extension = extension;
-		addChoosableFileFilter(new FileNameExtensionFilter(
-				String.format("*prod files and *ptbl files, ", extension, "ptbl"), extension, "ptbl"));
+		addChoosableFileFilter(
+				new FileNameExtensionFilter(String.format("* " + extension + " files", extension), extension));
 	}
 
 	@Override
 	public File getSelectedFile() {
 		File selectedFile = super.getSelectedFile();
-
-		if (selectedFile != null) {
-			String name = selectedFile.getName();
-			if (!name.contains("."))
-				selectedFile = new File(selectedFile.getParentFile(), name + '.' + extension);
-		}
-
 		return selectedFile;
 	}
 

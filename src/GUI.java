@@ -16,7 +16,6 @@ public class GUI {
 	public JFrame frame;
 	public JButton btnLoaded;
 	public JButton btnParse;
-
 	public JTable tblOutput;
 	public JTable tblProduction;
 	public JTable tblParse;
@@ -153,16 +152,13 @@ public class GUI {
 		Vector<String> row = new Vector<String>();
 		for (int i = 0; i < text.length(); i++) {
 			if (text.charAt(i) == '\n') {
-				System.out.println(word);
 				row.add(word);
 				word = "";
 				if (!row.isEmpty()) {
 					model.addRow(row);
 				}
-				System.out.println("row1" + row);
 				row = new Vector<String>();
 			} else if (text.charAt(i) == ',') {
-				System.out.println(word);
 				row.add(word);
 				word = "";
 			} else {
@@ -172,20 +168,20 @@ public class GUI {
 	}
 
 	public void setOutputTable(String text) {
+		if(text.isEmpty()){
+			return;
+		}
 		DefaultTableModel model = (DefaultTableModel) tblOutput.getModel();
 		model.setRowCount(0);
 		String word = "";
 		Vector<String> row = new Vector<String>();
 		for (int i = 0; i < text.length(); i++) {
 			if (text.charAt(i) == '\n') {
-				System.out.println("added to row: " + word);
 				row.add(word);
 				word = "";
 				model.addRow(row);
-				System.out.println("row1" + row);
 				row = new Vector<String>();
 			} else if (text.charAt(i) == ',') {
-				System.out.println("added to row: " + word);
 				row.add(word);
 				word = "";
 			} else {
@@ -195,7 +191,6 @@ public class GUI {
 
 		row.add(word);
 		word = "";
-		System.out.println("row2" + row);
 		model.addRow(row);
 	}
 
@@ -215,16 +210,13 @@ public class GUI {
 				model.addColumn(word);
 				word = "";
 			} else if (text.charAt(i) == '\n') {
-				System.out.println(word);
 				row.add(word);
 				word = "";
 				if (!row.isEmpty()) {
 					model.addRow(row);
 				}
-				System.out.println("row1" + row);
 				row = new Vector<String>();
 			} else if (text.charAt(i) == ',') {
-				System.out.println(word);
 				row.add(word);
 				word = "";
 			} else {
@@ -249,5 +241,9 @@ public class GUI {
 			txtLoaded.setText(fileName);
 			lblParseFileName.setText(fileName);
 		}
+	}
+	
+	public String getInputText(){
+		return this.txtInput.getText();
 	}
 }
