@@ -1,7 +1,13 @@
 import java.awt.EventQueue;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class NRPP {
 	public GUI gui;
+
+	private FileHandler fileHandler;
+
 	/**
 	 * Launch the application.
 	 */
@@ -17,22 +23,53 @@ public class NRPP {
 			}
 		});
 	}
-	
-	public NRPP(){
+
+	public NRPP() {
 		gui = new GUI();
-		String text = "1,E,T E'\n2,E',+ T E'\n3,E',e\n4,T,F T'\n5,T',* F T'\n6,T',e\n7,F,(E)\n8,F,id";
-		gui.setParseTable(text);
-		text = ",id,+,*,(,),$\nE,1,,,1,,\n"
-				+ "E',,2,,,3,3\n"
-				+ "T,4,,,4,,\n"
-				+ "T',,6,5,,6,6\n"
-				+ "F,8,,,7,,";
-		gui.setProductionTable(text);
-		text = "E $,id + id * id $\n"
-				+ "T E' $,id + id * id $, Output E > T E'\n"
-				+ "F T’ E’ $,id + id * id $,Output T > F T'\n"
-				+ "id T’ E’ $,id + id * id $,Output F > id\n"
-				+ "T’ E’ $,+ id * id $,Match id";
-		gui.setOutputTable(text);
+		initializeVariables();
+	}
+
+	private void initializeVariables() {
+		fileHandler = new FileHandler();
+
+		gui.btnLoaded.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fileHandler.chooseFile(gui.frame);
+				String fileExt = fileHandler.getRecentLoadedFileExtension();
+				if (!fileExt.isEmpty()) {
+					String text = "";
+					
+					try {
+						text = fileHandler.getFileContent();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+					if (fileExt.equals("prod")) {
+						gui.setProductionTable(text);
+						gui.setProductionFileName(fileHandler.getFileName());
+					} else if (fileExt.equals("ptbl")) {
+						gui.setParseTable(text);
+						gui.setParseTableFileName(fileHandler.getFileName());
+					}
+				}
+			}
+		});
+		
+		gui.btnParse.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				parseInput();
+			}
+		});
+	}
+	
+	public void parseInput(){
+		if(!fileHandler.isFileLoaded()){
+			System.out.println("empty");
+		} else {
+			
+		}
 	}
 }
